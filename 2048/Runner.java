@@ -43,7 +43,6 @@ public class Runner {
         
     }
     
-    
 }
 
 class 2048 extends Actor {
@@ -54,5 +53,23 @@ class 2048 extends Actor {
 			
 			if()
 		}
+	}
+	
+	public void randomTile()
+	{
+		boolean status = false;
+		Grid<Actor> gr = getGrid();
+		Random rand = new Random();
+		int x = 0;
+		int y = 0;
+		Location loc = new Location;
+		while(status == false;)
+			x = rand.nextInt(4);
+			y = rand.nextInt(4);
+			loc = (x,y);
+			if(gr.get(loc) == null)
+			{
+				
+			}
 	}
 }
