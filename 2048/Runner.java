@@ -56,3 +56,16 @@ class 2048 extends Actor {
 		}
 	}
 }
+
+class Score {
+	private int currentScore;
+
+	public void addScore(int add) {
+		currentScore += add;
+		world.setMessage(currentScore + "");
+	}
+
+	public int getScore() {
+		return currentScore;
+	}
+}
