@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workspace>
+	<settings>
+		<label>2048</label>
+	</settings>
+	<users>
+		<user>
+			<path>2048.jcu</path>
+		</user>
+	</users>
+	<projects>
+		<project>
+			<path>2048.jcp</path>
+		</project>
+	</projects>
+</workspace>
