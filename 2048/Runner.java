@@ -42,4 +42,17 @@ public class Runner {
         
         
     }
+    
+    
+}
+
+class 2048 extends Actor {
+	public void move(int direction) {
+		ArrayList<Actor> actors = getActors();
+		for(Actor a : actors)
+		{
+			
+			if()
+		}
+	}
 }
