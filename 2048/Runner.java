@@ -7,6 +7,7 @@ import info.gridworld.grid.*;
 import info.gridworld.actor.*;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Runner {
     public static void main(String[] args) {
@@ -83,6 +84,25 @@ class Logic extends Actor {
 		}
 		return Color.yellow;
 	}
+	
+	public void randomTile()
+	{
+		boolean status = false;
+		Grid<Actor> gr = getGrid();
+		Random rand = new Random();
+		int x = 0;
+		int y = 0;
+		
+		while(status == false);
+			x = rand.nextInt(4);
+			y = rand.nextInt(4);
+			Location loc = new Location(x,y);
+			
+			if(gr.get(loc) == null)
+			{
+				
+			}
+	}
 }
 
 class Score {
@@ -97,22 +117,5 @@ class Score {
 		return currentScore;
 	}
 	
-	public void randomTile()
-	{
-		boolean status = false;
-		Grid<Actor> gr = getGrid();
-		Random rand = new Random();
-		int x = 0;
-		int y = 0;
-		
-		while(status == false);
-			x = rand.nextInt(4);
-			y = rand.nextInt(4);
-			loc = new Location(x,y);
-			
-			if(gr.get(loc) == null)
-			{
-				
-			}
-	}
+	
 }
