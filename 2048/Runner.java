@@ -65,7 +65,7 @@ class Logic extends Actor {
 		for(Location loc : actors) {
 			if (loc.getAdjacentLocation(direction) != null && getGrid().isValid(loc.getAdjacentLocation(direction))) {
 				// The Below Line Doesn't Work and Is Driving Me Mad But Is Basically Supposed to Just Check if the Two Rocks are the Same Color
-				if(getGrid().get(loc.getAdjacentLocation(direction)).getColor() == getGrid().get(loc).getColor()) {
+				if(getGrid().get(loc.getAdjacentLocation(direction)).getColor().equals(getGrid().get(loc).getColor())) {
 					// Update Next Ones Color and Delete the Original (Tested and Doesn't Work...YAY .___.)
 					getGrid().remove(loc);
 					//getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
