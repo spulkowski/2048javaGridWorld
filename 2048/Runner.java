@@ -69,7 +69,7 @@ class Logic extends Actor {
 				if(getGrid().get(loc.getAdjacentLocation(direction)).getColor().equals(getGrid().get(loc).getColor())) {
 					// Update Next Ones Color and Delete the Original (Tested and Doesn't Work...YAY .___.)
 					getGrid().got(loc).removeSelfFromGrid();
-					getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
+					//getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
 				}
 				//System.out.println(getGrid().get(loc).getColor());
 				//System.out.println(getGrid().get(loc.getAdjacentLocation(direction)).getColor());
