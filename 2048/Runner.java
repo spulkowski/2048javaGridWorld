@@ -52,6 +52,7 @@ class Logic extends Actor {
 	ArrayList<Color> colors = new ArrayList<Color>();
 
 	Logic() {
+		colors.add(Color.black);
 		colors.add(new Color(241, 196, 15));
 		colors.add(new Color(230, 126, 34));
 		colors.add(new Color(231, 76, 60));
@@ -63,13 +64,16 @@ class Logic extends Actor {
 		// Transveral Still Not Implemented in this Situation
 		ArrayList<Location> actors = getGrid().getOccupiedLocations();
 		for(Location loc : actors) {
-			if (loc.getAdjacentLocation(direction) != null && getGrid().isValid(loc.getAdjacentLocation(direction))) {
+			if (getGrid().get(loc.getAdjacentLocation(direction)) instanceof Rock && getGrid().isValid(loc.getAdjacentLocation(direction))) {
 				// The Below Line Doesn't Work and Is Driving Me Mad But Is Basically Supposed to Just Check if the Two Rocks are the Same Color
 				if(getGrid().get(loc.getAdjacentLocation(direction)).getColor().equals(getGrid().get(loc).getColor())) {
 					// Update Next Ones Color and Delete the Original (Tested and Doesn't Work...YAY .___.)
-					getGrid().remove(loc);
-					//getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
+					getGrid().got(loc).removeSelfFromGrid();
+					getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
 				}
+				//System.out.println(getGrid().get(loc).getColor());
+				//System.out.println(getGrid().get(loc.getAdjacentLocation(direction)).getColor());
+				//System.out.println("=====================");
 			}
 		}
 	}
@@ -83,6 +87,25 @@ class Logic extends Actor {
 		}
 		return Color.yellow;
 	}
+	/*
+	public void randomTile()
+	{
+		boolean status = false;
+		Grid<Actor> gr = getGrid();
+		Random rand = new Random();
+		int x = 0;
+		int y = 0;
+		Location loc = new Location;
+		while(status == false) 
+			x = rand.nextInt(4);
+			y = rand.nextInt(4);
+			loc = (x,y);
+			if(gr.get(loc) == null)
+			{
+				
+			}
+	}
+	*/
 }
 
 class Score {
@@ -97,21 +120,5 @@ class Score {
 		return currentScore;
 	}
 	
-	public void randomTile()
-	{
-		boolean status = false;
-		Grid<Actor> gr = getGrid();
-		Random rand = new Random();
-		int x = 0;
-		int y = 0;
-		Location loc = new Location;
-		while(status == false;)
-			x = rand.nextInt(4);
-			y = rand.nextInt(4);
-			loc = (x,y);
-			if(gr.get(loc) == null)
-			{
-				
-			}
-	}
+	
 }
