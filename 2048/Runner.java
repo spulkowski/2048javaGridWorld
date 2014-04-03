@@ -104,11 +104,12 @@ class Score {
 		Random rand = new Random();
 		int x = 0;
 		int y = 0;
-		Location loc = new Location;
-		while(status == false;)
+		
+		while(status == false);
 			x = rand.nextInt(4);
 			y = rand.nextInt(4);
-			loc = (x,y);
+			loc = new Location(x,y);
+			
 			if(gr.get(loc) == null)
 			{
 				
