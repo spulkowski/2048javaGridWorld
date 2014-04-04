@@ -61,15 +61,15 @@ class Logic extends Actor {
 	}
 
 	public void move(int direction) {
-<<<<<<< HEAD
+
 		// Transveral Still Not Implemented in this Situation
 	
 		Grid<Actor> gr = getGrid();
-=======
+
 		// Start Transfersal In the Beginning and Then Proceed with Smashing
 
 		// HULK SMASH
->>>>>>> 107015e951ebcd0cf57b011aaa6b5fe54386b991
+
 		ArrayList<Location> actors = getGrid().getOccupiedLocations();
 		
 		 for(Location lok : actors) 
@@ -117,23 +117,7 @@ class Logic extends Actor {
 		}
 		return Color.yellow;
 	}
-<<<<<<< HEAD
-	
-	public void randomTile()
-	{
-		boolean status = false;
-		Grid<Actor> gr = getGrid();
-		Random rand = new Random();
-		int x = 0;
-		int y = 0;
-		while(status == false) 
-			x = rand.nextInt(4);
-			y = rand.nextInt(4);
-			Location loc = new Location(x,y);
-			if(gr.get(loc) == null)
-			{
-				//	
-=======
+
 
 	public ArrayList<Location> emptyTiles() {
 		ArrayList<Location> answer = new ArrayList<Location>();
@@ -142,7 +126,7 @@ class Logic extends Actor {
 				if(getGrid().get(new Location(i, j)) == null) {
 					answer.add(new Location(i, j));
 				}
->>>>>>> 107015e951ebcd0cf57b011aaa6b5fe54386b991
+
 			}
 		}
 		return answer;
