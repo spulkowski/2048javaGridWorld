@@ -62,12 +62,35 @@ class Logic extends Actor {
 
 	public void move(int direction) {
 		// Transveral Still Not Implemented in this Situation
+	
+		Grid<Actor> gr = getGrid();
 		ArrayList<Location> actors = getGrid().getOccupiedLocations();
+		
+		 for(Location lok : actors) 
+		{
+		
+			
+		if (getGrid().get(lok.getAdjacentLocation(direction)) == null && getGrid().isValid(lok.getAdjacentLocation(direction)))
+			{
+				moveTo(lok.getAdjacentLocation(direction));
+			}
+			
+		
+//			 
+//        				if (gr.isValid(next))
+//            				
+		}
+            				
+		
 		for(Location loc : actors) {
 			if (getGrid().get(loc.getAdjacentLocation(direction)) instanceof Rock && getGrid().isValid(loc.getAdjacentLocation(direction))) {
 				if(getGrid().get(loc.getAdjacentLocation(direction)).getColor().equals(getGrid().get(loc).getColor())) {
 					getGrid().get(loc).removeSelfFromGrid();
 					getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
+					
+		
+        				
+					
 				} 
 			}
 			//if(getGrid().get(loc.getAdjacentLocation(direction)) == null && getGrid().isValid(loc.getAdjacentLocation(direction))) {
@@ -101,7 +124,7 @@ class Logic extends Actor {
 			Location loc = new Location(x,y);
 			if(gr.get(loc) == null)
 			{
-				
+				//	
 			}
 	}
 
