@@ -61,7 +61,9 @@ class Logic extends Actor {
 	}
 
 	public void move(int direction) {
-		// Transveral Still Not Implemented in this Situation
+		// Start Transfersal In the Beginning and Then Proceed with Smashing
+
+		// HULK SMASH
 		ArrayList<Location> actors = getGrid().getOccupiedLocations();
 		for(Location loc : actors) {
 			if (getGrid().get(loc.getAdjacentLocation(direction)) instanceof Rock && getGrid().isValid(loc.getAdjacentLocation(direction))) {
@@ -76,6 +78,7 @@ class Logic extends Actor {
 				
 			//}
 		}
+		randomTile();
 	}
 
 	public Color nextColor(Color current) {
@@ -87,24 +90,30 @@ class Logic extends Actor {
 		}
 		return Color.yellow;
 	}
-	
-	public void randomTile()
-	{
-		boolean status = false;
-		Grid<Actor> gr = getGrid();
-		Random rand = new Random();
-		int x = 0;
-		int y = 0;
-		while(status == false) 
-			x = rand.nextInt(4);
-			y = rand.nextInt(4);
-			Location loc = new Location(x,y);
-			if(gr.get(loc) == null)
-			{
-				
+
+	public ArrayList<Location> emptyTiles() {
+		ArrayList<Location> answer = new ArrayList<Location>();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if(getGrid().get(new Location(i, j)) == null) {
+					answer.add(new Location(i, j));
+				}
 			}
+		}
+		return answer;
 	}
 
+	public void randomTile() {
+		ArrayList<Location> locs = emptyTiles();
+		if (locs.size() == 0) {
+			// Don't Add Tile
+		} else {
+			int n = (int) (Math.random() * locs.size());
+			Rock r = new Rock();
+			r.putSelfInGrid(getGrid(), locs.get(n));
+		}
+	}
+	
 }
 
 class Score {
