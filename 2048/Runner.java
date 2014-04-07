@@ -11,13 +11,13 @@ import java.util.Random;
 
 public class Runner {
     public static void main(String[] args) {
-        ActorWorld world = new ActorWorld(new BoundedGrid(4,4));
+        final ActorWorld world = new ActorWorld(new BoundedGrid(4,4));
+        world.setMessage("Score: 0");
         // Logic Accessor
-        final Logic hello = new Logic();
+        final Logic hello = new Logic(world.getGrid());
         // Rock Start
         Rock one = new Rock();
         Rock two = new Rock();
-        world.add(new Location(0, 0), hello);
         world.add(new Location(1, 1), one);
         world.add(new Location(1, 2), two);
         // World Start
@@ -41,7 +41,7 @@ public class Runner {
 				if (key.equals("pressed LEFT")) {
 				 	hello.move(270);
 				}
-				
+				world.setMessage("Score: " + hello.getScore());
 				return true; 
 			} 
 		});         
@@ -51,67 +51,64 @@ public class Runner {
 
 class Logic extends Actor {
 	ArrayList<Color> colors = new ArrayList<Color>();
+	Grid<Actor> grd;
+	Score score;
 
-	Logic() {
-		colors.add(Color.black);
-		colors.add(new Color(241, 196, 15));
-		colors.add(new Color(230, 126, 34));
-		colors.add(new Color(231, 76, 60));
-		Score score = new Score();
+	Logic(Grid<Actor> grid) {
+		colors.add(Color.black); // 2
+		colors.add(new Color(241, 196, 15)); // 4
+		colors.add(new Color(230, 126, 34)); // 8
+		colors.add(new Color(231, 76, 60)); // 16
+		colors.add(new Color(26, 188, 156)); // 32
+		colors.add(new Color(46, 204, 113)); // 64
+		colors.add(new Color(155, 89, 182)); // 128
+		colors.add(new Color(52, 73, 94)); // 256
+		colors.add(new Color(127, 140, 141)); // 512
+		colors.add(new Color(219, 252, 0)); // 1024
+		colors.add(Color.gray); // 2048
+		score = new Score();
+		grd = grid;
 	}
 
 	public void move(int direction) {
-
-		// Transveral Still Not Implemented in this Situation
-	
-		Grid<Actor> gr = getGrid();
-
-		// Start Transfersal In the Beginning and Then Proceed with Smashing
-
-		// HULK SMASH
-
-		ArrayList<Location> actors = getGrid().getOccupiedLocations();
-		
-		 for(Location lok : actors) 
-		{
-		
-			
-		if (getGrid().get(lok.getAdjacentLocation(direction)) == null && getGrid().isValid(lok.getAdjacentLocation(direction)))
-			{
-				moveTo(lok.getAdjacentLocation(direction));
-			}
-			
-		
-//			 
-//        				if (gr.isValid(next))
-//            				
-		}
-            				
-		
+		// Transversal Works, I Guess? and We Need a Won Clause
+		ArrayList<Location> actors = grd.getOccupiedLocations();
+		// HULK SMASH	
 		for(Location loc : actors) {
-			if (getGrid().get(loc.getAdjacentLocation(direction)) instanceof Rock && getGrid().isValid(loc.getAdjacentLocation(direction))) {
-				if(getGrid().get(loc.getAdjacentLocation(direction)).getColor().equals(getGrid().get(loc).getColor())) {
-					getGrid().get(loc).removeSelfFromGrid();
-					getGrid().get(loc.getAdjacentLocation(direction)).setColor(nextColor(getGrid().get(loc.getAdjacentLocation(direction)).getColor()));
-					
-		
-        				
-					
-				} 
+			if (grd.isValid(loc.getAdjacentLocation(direction))) {
+				if (grd.get(loc.getAdjacentLocation(direction)) != null) {
+					if(grd.get(loc.getAdjacentLocation(direction)).getColor().equals(grd.get(loc).getColor())) {
+						grd.get(loc).removeSelfFromGrid();
+						grd.get(loc.getAdjacentLocation(direction)).setColor(nextColor(grd.get(loc.getAdjacentLocation(direction)).getColor()));
+					}
+				}
 			}
-			//if(getGrid().get(loc.getAdjacentLocation(direction)) == null && getGrid().isValid(loc.getAdjacentLocation(direction))) {
-				
-			//	getGrid().put(loc.getAdjacentLocation(direction), getGrid().get(loc));
-				
-			//}
+			// Transversal
+			Location moving = moveAway(loc, direction);
+			if (grd.get(loc) != null && grd.isValid(moving)) {
+				grd.get(loc).moveTo(moving);
+			}
 		}
 		randomTile();
+		// Check if Moves are Possible, Else End Game (Make a Private Void Method)
 	}
 
-	public Color nextColor(Color current) {
+	private Location moveAway(Location loc, int direction) {
+		Location answer = loc;
+		for (int i = 0; i < 4; i++) {
+			if (grd.isValid(answer.getAdjacentLocation(direction)) && grd.get(answer.getAdjacentLocation(direction)) == null) {
+				answer = answer.getAdjacentLocation(direction);
+			}
+		}
+		return answer;
+	}
+
+	private Color nextColor(Color current) {
 		// Use This To Go Through the List of Colors. 
 		for(int i = 0; i < colors.size() - 1; i++) {
 			if (colors.get(i) == current) {
+				int scoreToAdd = (int) (Math.pow(2, (i + 1)));
+				score.addScore(scoreToAdd);
 				return colors.get(i + 1);
 			}
 		}
@@ -119,11 +116,11 @@ class Logic extends Actor {
 	}
 
 
-	public ArrayList<Location> emptyTiles() {
+	private ArrayList<Location> emptyTiles() {
 		ArrayList<Location> answer = new ArrayList<Location>();
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				if(getGrid().get(new Location(i, j)) == null) {
+				if(grd.get(new Location(i, j)) == null) {
 					answer.add(new Location(i, j));
 				}
 
@@ -132,25 +129,32 @@ class Logic extends Actor {
 		return answer;
 	}
 
-	public void randomTile() {
+	private void randomTile() {
 		ArrayList<Location> locs = emptyTiles();
 		if (locs.size() == 0) {
 			// Don't Add Tile
 		} else {
 			int n = (int) (Math.random() * locs.size());
 			Rock r = new Rock();
-			r.putSelfInGrid(getGrid(), locs.get(n));
+			r.putSelfInGrid(grd, locs.get(n));
 		}
 	}
 	
+	public int getScore() {
+		return score.getScore();
+	}
+
 }
 
 class Score {
 	private int currentScore;
 
+	Score() {
+		currentScore = 0;
+	}
+
 	public void addScore(int add) {
 		currentScore += add;
-		//world.setMessage(currentScore + "");
 	}
 
 	public int getScore() {
