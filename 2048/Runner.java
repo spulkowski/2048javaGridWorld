@@ -90,7 +90,20 @@ class Logic extends Actor {
 			}
 		}
 		randomTile();
-		// Check if Moves are Possible, Else End Game (Make a Private Void Method)
+		if (gameWon()) {
+			javax.swing.JOptionPane.showMessageDialog(null, "Score: " + score.getScore(), "YOU WON!", 0);
+			System.exit(0);
+		}
+	}
+
+	private boolean gameWon() {
+		ArrayList<Location> actors = grd.getOccupiedLocations();
+		for (Location loc : actors) {
+			if (grd.get(loc).getColor() == Color.gray) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private Location moveAway(Location loc, int direction) {
@@ -107,7 +120,7 @@ class Logic extends Actor {
 		// Use This To Go Through the List of Colors. 
 		for(int i = 0; i < colors.size() - 1; i++) {
 			if (colors.get(i) == current) {
-				int scoreToAdd = (int) (Math.pow(2, (i + 1)));
+				int scoreToAdd = (int) (Math.pow(2, (i + 1)) * 2);
 				score.addScore(scoreToAdd);
 				return colors.get(i + 1);
 			}
@@ -142,6 +155,32 @@ class Logic extends Actor {
 	
 	public int getScore() {
 		return score.getScore();
+	}
+	
+	private boolean isGameOver()
+	{
+		if ((canMove(0) == false && canMove(90) == false && canMove(180) ==false && canMove(270)==false) && emptyTiles().size()== 0) 
+		{
+			return true;
+		}
+		return false;	
+	}
+	
+	private boolean canMove(int d)
+	{
+		ArrayList<Location> actors = grd.getOccupiedLocations();
+		boolean status = false;
+		for(Location loc : actors)
+		{
+			if (grd.isValid(loc.getAdjacentLocation(d))) {
+				if (grd.get(loc.getAdjacentLocation(d)) != null) {
+					if(grd.get(loc.getAdjacentLocation(d)).getColor().equals(grd.get(loc).getColor()))
+					status = true;
+				}
+			}
+		}
+		return status;
+		 
 	}
 
 }
