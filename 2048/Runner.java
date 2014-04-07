@@ -90,9 +90,12 @@ class Logic extends Actor {
 			}
 		}
 		randomTile();
-<<<<<<< HEAD
 		if (gameWon()) {
-			javax.swing.JOptionPane.showMessageDialog(null, "Score: " + score.getScore(), "YOU WON!", 0);
+			javax.swing.JOptionPane.showMessageDialog(null, "Score: " + score.getScore(), "You Won!", 0);
+			System.exit(0);
+		}
+		if (isGameOver()) {
+			javax.swing.JOptionPane.showMessageDialog(null, "Score: " + score.getScore(), "Game Over!", 0);
 			System.exit(0);
 		}
 	}
@@ -105,12 +108,6 @@ class Logic extends Actor {
 			}
 		}
 		return false;
-=======
-		if(isGameOver()) {
-			System.out.println("Game's Over Folks");
-		}
-		// Check if Moves are Possible, Else End Game (Make a Private Void Method)
->>>>>>> FETCH_HEAD
 	}
 
 	private Location moveAway(Location loc, int direction) {
