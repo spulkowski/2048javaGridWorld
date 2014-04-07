@@ -90,6 +90,9 @@ class Logic extends Actor {
 			}
 		}
 		randomTile();
+		if(isGameOver()) {
+			System.out.println("Game's Over Folks");
+		}
 		// Check if Moves are Possible, Else End Game (Make a Private Void Method)
 	}
 
@@ -142,6 +145,32 @@ class Logic extends Actor {
 	
 	public int getScore() {
 		return score.getScore();
+	}
+	
+	private boolean isGameOver()
+	{
+		if ((canMove(0) == false && canMove(90) == false && canMove(180) ==false && canMove(270)==false) && emptyTiles().size()== 0) 
+		{
+			return true;
+		}
+		return false;	
+	}
+	
+	private boolean canMove(int d)
+	{
+		ArrayList<Location> actors = grd.getOccupiedLocations();
+		boolean status = false;
+		for(Location loc : actors)
+		{
+			if (grd.isValid(loc.getAdjacentLocation(d))) {
+				if (grd.get(loc.getAdjacentLocation(d)) != null) {
+					if(grd.get(loc.getAdjacentLocation(d)).getColor().equals(grd.get(loc).getColor()))
+					status = true;
+				}
+			}
+		}
+		return status;
+		 
 	}
 
 }
