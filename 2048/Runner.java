@@ -56,15 +56,15 @@ class Logic extends Actor {
 
 	Logic(Grid<Actor> grid) {
 		colors.add(Color.black); // 2
-		colors.add(new Color(241, 196, 15)); // 4
-		colors.add(new Color(230, 126, 34)); // 8
-		colors.add(new Color(231, 76, 60)); // 16
-		colors.add(new Color(26, 188, 156)); // 32
-		colors.add(new Color(46, 204, 113)); // 64
-		colors.add(new Color(155, 89, 182)); // 128
-		colors.add(new Color(52, 73, 94)); // 256
-		colors.add(new Color(127, 140, 141)); // 512
-		colors.add(new Color(219, 252, 0)); // 1024
+		colors.add(new Color(231,47,39)); // 4
+		colors.add(new Color(238,113,25)); // 8
+		colors.add(new Color(255,200,8)); // 16
+		colors.add(new Color(170,198,27)); // 32
+		colors.add(new Color(19,166,50)); // 64
+		colors.add(new Color(4,148,87)); // 128
+		colors.add(new Color(1,134,141)); // 256
+		colors.add(new Color(3,86,155)); // 512
+		colors.add(new Color(204,63,92)); // 1024
 		colors.add(Color.gray); // 2048
 		score = new Score();
 		grd = grid;
@@ -106,13 +106,23 @@ class Logic extends Actor {
 				}
 			}
 		}
+		/*
 		for (Location loc : missed) {
 			Location moving = moveAway(loc, direction);
 			if (grd.get(loc) != null && grd.isValid(moving)) {
 				grd.get(loc).moveTo(moving);
 			}
 		}
+		*/
 		randomTile();
+		actors = grd.getOccupiedLocations();
+		for (int i = actors.size()-1; i>=0; i--) {
+			Location moving = moveAway(actors.get(i), direction);
+			if (grd.get(actors.get(i)) != null && grd.isValid(moving)) {
+				grd.get(actors.get(i)).moveTo(moving);
+			}
+		}
+		
 		if (gameWon()) {
 			javax.swing.JOptionPane.showMessageDialog(null, "Score: " + score.getScore(), "You Won!", 0);
 			System.exit(0);
