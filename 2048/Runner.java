@@ -73,17 +73,40 @@ class Logic extends Actor {
 	public void move(int direction) {
 		// Transversal Works, I Guess? and We Need a Won Clause
 		ArrayList<Location> actors = grd.getOccupiedLocations();
+		ArrayList<Location> missed = new ArrayList<Location>();
 		// HULK SMASH	
 		for(Location loc : actors) {
-			if (grd.isValid(loc.getAdjacentLocation(direction))) {
-				if (grd.get(loc.getAdjacentLocation(direction)) != null) {
-					if(grd.get(loc.getAdjacentLocation(direction)).getColor().equals(grd.get(loc).getColor())) {
-						grd.get(loc).removeSelfFromGrid();
-						grd.get(loc.getAdjacentLocation(direction)).setColor(nextColor(grd.get(loc.getAdjacentLocation(direction)).getColor()));
+			// Transversal
+			boolean hi = false;
+			Location moving = moveAway(loc, direction);
+			if (moving == loc) {
+				missed.add(loc);
+			}
+			if (grd.get(loc) != null && grd.isValid(moving)) {
+				grd.get(loc).moveTo(moving);
+				hi = true;
+			}
+			if (hi == true) {
+				if (grd.isValid(moving.getAdjacentLocation(direction))) {
+					if (grd.get(moving.getAdjacentLocation(direction)) != null) {
+						if(grd.get(moving.getAdjacentLocation(direction)).getColor().equals(grd.get(moving).getColor())) {
+							grd.get(moving).removeSelfFromGrid();
+							grd.get(moving.getAdjacentLocation(direction)).setColor(nextColor(grd.get(moving.getAdjacentLocation(direction)).getColor()));
+						}
+					}
+				}
+			} else {
+				if (grd.isValid(loc.getAdjacentLocation(direction))) {
+					if (grd.get(loc.getAdjacentLocation(direction)) != null) {
+						if(grd.get(loc.getAdjacentLocation(direction)).getColor().equals(grd.get(loc).getColor())) {
+							grd.get(loc).removeSelfFromGrid();
+							grd.get(loc.getAdjacentLocation(direction)).setColor(nextColor(grd.get(loc.getAdjacentLocation(direction)).getColor()));
+						}
 					}
 				}
 			}
-			// Transversal
+		}
+		for (Location loc : missed) {
 			Location moving = moveAway(loc, direction);
 			if (grd.get(loc) != null && grd.isValid(moving)) {
 				grd.get(loc).moveTo(moving);
