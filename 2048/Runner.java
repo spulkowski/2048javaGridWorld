@@ -4,7 +4,7 @@
 
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.grid.*;
-import info.gridworld.actor.*;
+import info.gridworld.actor.Actor;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,9 +15,9 @@ public class Runner {
         world.setMessage("Score: 0");
         // Logic Accessor
         final Logic hello = new Logic(world.getGrid());
-        // Rock Start
-        Rock one = new Rock();
-        Rock two = new Rock();
+        // Lego Start
+        Lego one = new Lego();
+        Lego two = new Lego();
         world.add(new Location(1, 1), one);
         world.add(new Location(1, 2), two);
         // World Start
@@ -185,7 +185,7 @@ class Logic extends Actor {
 			// Don't Add Tile
 		} else {
 			int n = (int) (Math.random() * locs.size());
-			Rock r = new Rock();
+			Lego r = new Lego();
 			r.putSelfInGrid(grd, locs.get(n));
 		}
 	}
