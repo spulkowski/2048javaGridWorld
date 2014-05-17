@@ -1,7 +1,6 @@
 Grid World Java 2048 Clone
 =================
 
-Created for an AP Computer Science final project at HCRHS by Sarah, Petros and Ryan. 
-
+Clone of the wildly popular game 2048 on top of the Grid World codebase.
 
 P.S. Legos are cool
